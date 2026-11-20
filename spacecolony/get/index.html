@@ -1,8 +1,11 @@
 <!doctype html>
 <!--
   AKILLI MAGAZA BAGLANTISI (2026-11, Instagram Reels reklami icin).
-  Yayin: https://shaumnegames.com/spacecolony/get/
-  Uretici: scripts/build-privacy-site.mjs bu dosyayi privacy-site/get/index.html olarak kopyalar.
+  Yayin (reklamda KULLANILAN, kisa): https://shaumne.github.io/indir
+         -> depo shaumne/shaumne.github.io, dosya indir/index.html (elle kopyalanir)
+  Yedek: https://shaumnegames.com/spacecolony/get/
+         -> scripts/build-privacy-site.mjs bu dosyayi privacy-site/get/index.html olarak kopyalar.
+  Bu dosya degisirse IKI yere de kopyalanir.
 
   NE YAPAR: telefon Android ise Google Play'e, iPhone/iPad ise App Store'a
   ANINDA gider (location.replace: geri tusu reklama doner, bu sayfaya degil).
@@ -15,6 +18,15 @@
                  App Store Connect > Uygulama Analizi > Kampanyalar)
   Ornek: .../get/?utm_source=instagram&utm_medium=paid&utm_campaign=reels_jp_2026_11
 
+  SAYAC (2026-11-16, sahip karari: "cerez yok, dis site yok"): kendi Firebase'imiz.
+    Yonlendirmeden hemen once TEK GET (fetch keepalive; sayfa BEKLEMEZ):
+      https://asia-northeast1-uzay-kolonisi-idle.cloudfunctions.net/sayac
+      ?o=<oyun>&h=android|ios|masaustu&tz=<saat dilimi>&dl=<dil>&src=&kmp=
+    Fonksiyon kaynagi ve panel: D:dashboard (sayac-fonksiyon/). Cerez YOK, IP ve
+    tarayici kimligi SAKLANMAZ; yalniz gunluk toplamlar (gunluk_sayac koleksiyonu).
+    Kaynak: utm_source > Instagram/Facebook uygulama ici tarayici > referrer alani.
+    ?dur=1 (test) sayilmaz. Sayac hata verirse yonlendirme yine calisir.
+
   GitHub Pages statiktir: sunucu tarafi kod calismaz; yonlendirme tarayicida,
   ilk boyamadan once (head icinde) yapilir.
 -->
@@ -23,9 +35,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>宇宙コロニー：放置で惑星開拓 | Space Colony Idle</title>
-<meta name="description" content="火星にコロニーを築く放置ゲーム。基本プレイ無料。">
+<meta name="description" content="火星にコロニーを築く放置ゲーム。基本無料。">
 <meta property="og:title" content="宇宙コロニー：放置で惑星開拓">
-<meta property="og:description" content="火星にコロニーを築く放置ゲーム。基本プレイ無料。">
+<meta property="og:description" content="火星にコロニーを築く放置ゲーム。基本無料。">
 <meta property="og:image" content="https://shaumnegames.com/spacecolony/press/hero-1200x628.png">
 <meta property="og:type" content="website">
 <meta name="robots" content="noindex">
@@ -35,6 +47,10 @@
   var APPLE_PT = ''
   var PAKET = 'com.shaumnegames.uzaykolonisi'
   var APPLE_ID = '6806013396'
+  // Sayac (D:dashboardsayac-fonksiyon). Bossa sayac kapali.
+  var SAYAC = 'https://asia-northeast1-uzay-kolonisi-idle.cloudfunctions.net/sayac'
+  // D:dashboardoyunlar.json'daki slug ile AYNI.
+  var OYUN = 'uzay-kolonisi'
 
   var q = new URLSearchParams(location.search)
   var temiz = function (v, yedek) { return (v || yedek).replace(/[^A-Za-z0-9_.-]/g, '').slice(0, 60) }
@@ -55,6 +71,28 @@
 
   window.__magaza = { play: play, ios: ios }
   if (q.get('dur') === '1') return // test: yonlendirmeden sayfayi goster
+
+  // Sayac: hangi magazaya gonderildigini say (cerezsiz). Hata olursa sessizce gec.
+  try {
+    if (SAYAC) {
+      var hedef = android ? 'android' : apple ? 'ios' : 'masaustu'
+      var ref = ''
+      try { ref = document.referrer ? new URL(document.referrer).hostname : '' } catch (e) {}
+      var src = q.get('utm_source') ||
+        (/Instagram/.test(ua) ? 'instagram_uygulama' : /FBAN|FBAV/.test(ua) ? 'facebook_uygulama' : '') ||
+        ref || 'dogrudan'
+      var tz = ''
+      try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '' } catch (e) {}
+      var u = SAYAC + '?o=' + OYUN + '&h=' + hedef +
+        '&tz=' + encodeURIComponent(tz) +
+        '&dl=' + encodeURIComponent(navigator.language || '') +
+        '&src=' + encodeURIComponent(src) +
+        '&kmp=' + encodeURIComponent(q.get('utm_campaign') || '')
+      if (window.fetch) fetch(u, { mode: 'no-cors', keepalive: true, credentials: 'omit' })
+      else new Image().src = u
+    }
+  } catch (e) { /* sayac yonlendirmeyi asla engellemez */ }
+
   if (android) location.replace(play)
   else if (apple) location.replace(ios)
 })()
@@ -81,10 +119,11 @@
 <body>
 <main>
   <h1>宇宙コロニー</h1>
-  <p>Space Colony Idle ・ 基本プレイ無料</p>
+  <p>Space Colony Idle ・ 基本無料</p>
   <a class="btn" id="ios" href="https://apps.apple.com/app/id6806013396">App Store でダウンロード</a>
   <a class="btn ikincil" id="play" href="https://play.google.com/store/apps/details?id=com.shaumnegames.uzaykolonisi">Google Play で手に入れよう</a>
   <small>Download on the App Store ・ Get it on Google Play</small>
+  <small>アクセス数（端末の種類・地域・参照元の合計のみ）を集計しています。Cookie や個人情報は使用しません。</small>
 </main>
 <script>
   // Dugmeler de olcum parametrelerini tasisin (masaustunden telefona gecenler icin).
