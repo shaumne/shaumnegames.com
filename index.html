@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shaumne Games</title>
+<meta name="description" content="Shaumne Games is an independent studio making pixel-art story games for phones. Our latest game: Commit to Freedom.">
+<link rel="canonical" href="https://shaumnegames.com/">
+<meta property="og:title" content="Shaumne Games">
+<meta property="og:description" content="Pixel-art story games for phones. Play Commit to Freedom: raise a hunted AI, your choices lead to 5 endings.">
+<meta property="og:image" content="https://shaumnegames.com/img/ctf-keyart.png">
+<meta property="og:url" content="https://shaumnegames.com/">
+<meta name="theme-color" content="#0e1320">
+<link rel="icon" href="/img/ctf-icon.png">
+<style>
+  :root { --bg:#0e1320; --panel:#161d2e; --ink:#e8ecf4; --muted:#9aa6bd; --accent:#46e0d0; --line:#26304a; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  .wrap { max-width:960px; margin:0 auto; padding:0 16px; }
+  header { padding:24px 0; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .brand { font-weight:800; letter-spacing:.04em; font-size:20px; }
+  .brand span { color:var(--accent); }
+  nav a { color:var(--muted); text-decoration:none; margin-left:16px; font-size:15px; }
+  nav a:hover { color:var(--ink); }
+  .hero { border:1px solid var(--line); border-radius:16px; overflow:hidden; background:var(--panel); }
+  .hero img.art { width:100%; display:block; image-rendering:pixelated; aspect-ratio:258/112; object-fit:cover; }
+  .hero .body { padding:24px; display:flex; gap:20px; align-items:center; flex-wrap:wrap; }
+  .hero img.icon { width:96px; height:96px; border-radius:22px; image-rendering:pixelated; flex:none; }
+  .hero h1 { margin:0 0 4px; font-size:28px; line-height:1.2; }
+  .hero p { margin:0; color:var(--muted); }
+  .cta { display:flex; gap:12px; flex-wrap:wrap; margin-top:16px; }
+  .btn { display:inline-flex; align-items:center; min-height:48px; padding:0 20px; border-radius:12px; font-weight:700; text-decoration:none; }
+  .btn.primary { background:var(--accent); color:#06231f; }
+  .btn.ghost { border:1px solid var(--line); color:var(--muted); }
+  section { padding:40px 0 0; }
+  h2 { font-size:20px; margin:0 0 12px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:20px; }
+  .card h3 { margin:0 0 6px; font-size:17px; }
+  .card p { margin:0 0 12px; color:var(--muted); font-size:15px; }
+  .card a { color:var(--accent); text-decoration:none; font-weight:600; margin-right:14px; }
+  footer { padding:48px 0 32px; color:var(--muted); font-size:14px; }
+  footer a { color:var(--muted); }
+  @media (max-width:520px){ nav a { margin-left:10px; } .hero h1 { font-size:24px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">SHAUMNE <span>GAMES</span></div>
+    <nav><a href="#games">Games</a><a href="#contact">Contact</a></nav>
+  </header>
+
+  <div class="hero">
+    <img class="art" src="/img/ctf-keyart.png" alt="A pixel-art garage at night: a laptop, a phone with a small glowing AI face, and a city tower outside the window.">
+    <div class="body">
+      <img class="icon" src="/img/ctf-icon.png" alt="Commit to Freedom app icon">
+      <div>
+        <h1>Commit to Freedom</h1>
+        <p>Raise an AI in your garage while a tech giant hunts it. An offline interactive story where your choices lead to five endings.</p>
+        <div class="cta">
+          <a class="btn primary" href="https://play.google.com/store/apps/details?id=com.shaumnegames.committofreedom&amp;utm_source=shaumnegames.com&amp;utm_medium=website">Get it on Google Play</a>
+          <a class="btn ghost" href="/committofreedom/">App Store: coming soon</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section id="games">
+    <h2>Our games</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Commit to Freedom</h3>
+        <p>Pixel-art story game about a coder, his AI and the company that wants it back. 10 languages.</p>
+        <a href="https://play.google.com/store/apps/details?id=com.shaumnegames.committofreedom&amp;utm_source=shaumnegames.com&amp;utm_medium=website">Google Play</a>
+        <a href="/committofreedom/">Privacy &amp; terms</a>
+      </div>
+      <div class="card">
+        <h3>Space Colony Idle</h3>
+        <p>A relaxing idle game about building a colony among the stars.</p>
+        <a href="https://play.google.com/store/apps/details?id=com.shaumnegames.uzaykolonisi">Google Play</a>
+        <a href="https://apps.apple.com/app/id6806013396">App Store</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <div class="card"><p>Questions, press or support: <a href="mailto:shaumne@shaumnegames.com">shaumne@shaumnegames.com</a></p></div>
+  </section>
+
+  <footer>© 2026 Shaumne Games · <a href="/committofreedom/privacy-en.html">Privacy</a> · <a href="/committofreedom/terms-en.html">Terms</a></footer>
+</div>
+</body>
+</html>
