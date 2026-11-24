@@ -103,7 +103,18 @@
     }
   } catch (e) { /* sayac yonlendirmeyi asla engellemez */ }
 
-  if (android) location.replace(playHedef)
+  if (android) {
+    location.replace(playHedef)
+    // ZAMANLI YEDEK: uygulama ici tarayici intent:// adresini reddederse
+    // (hata sayfasi ya da hicbir sey) sayfa gorunur kalir; 1,5 sn sonra
+    // dogrudan https Play linkine gecilir. Play uygulamasi acildiysa sayfa
+    // gizlenmistir ve yedek calismaz.
+    if (playHedef !== play) {
+      setTimeout(function () {
+        if (document.visibilityState !== 'hidden') location.replace(play)
+      }, 1500)
+    }
+  }
   else if (apple) location.replace(ios)
 })()
 </script>
