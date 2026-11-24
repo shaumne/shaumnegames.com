@@ -58,8 +58,9 @@
   var ortam = temiz(q.get('utm_medium'), 'link')
   var kampanya = temiz(q.get('utm_campaign'), 'smartlink')
 
-  var play = 'https://play.google.com/store/apps/details?id=' + PAKET +
+  var playYolu = 'details?id=' + PAKET +
     '&referrer=' + encodeURIComponent('utm_source=' + kaynak + '&utm_medium=' + ortam + '&utm_campaign=' + kampanya)
+  var play = 'https://play.google.com/store/apps/' + playYolu
   // Ulke kodu YOK: App Store kullanicinin kendi ulke magazasini acar.
   var ios = 'https://apps.apple.com/app/id' + APPLE_ID +
     (APPLE_PT ? '?pt=' + APPLE_PT + '&ct=' + kampanya + '&mt=8' : '')
@@ -69,7 +70,16 @@
   // iPadOS 13+ masaustu Safari gibi "Macintosh" der; dokunmatik noktadan ayrilir.
   var apple = /iphone|ipad|ipod/i.test(ua) || (/macintosh/i.test(ua) && navigator.maxTouchPoints > 1)
 
-  window.__magaza = { play: play, ios: ios }
+  // 2026-11-24: Instagram/Facebook/LINE uygulama ici tarayicisi (Android WebView) https Play
+  // linkini Play UYGULAMASINDA degil web sayfasinda acar (JP: 135 tiklama -> 5 kurulum).
+  // Orada intent:// ile Play Store uygulamasi acilir; acilamazsa tarayici https linke duser.
+  // Normal tarayicida (Chrome vb.) https davranisi aynen kalir.
+  var uygulamaIci = /Instagram|FBAN|FBAV|FB_IAB|FB4A|\bLine\//.test(ua)
+  var playIntent = 'intent://' + playYolu +
+    '#Intent;scheme=market;package=com.android.vending;S.browser_fallback_url=' + encodeURIComponent(play) + ';end'
+  var playHedef = android && uygulamaIci ? playIntent : play
+
+  window.__magaza = { play: playHedef, playWeb: play, ios: ios }
   if (q.get('dur') === '1') return // test: yonlendirmeden sayfayi goster
 
   // Sayac: hangi magazaya gonderildigini say (cerezsiz). Hata olursa sessizce gec.
@@ -93,7 +103,7 @@
     }
   } catch (e) { /* sayac yonlendirmeyi asla engellemez */ }
 
-  if (android) location.replace(play)
+  if (android) location.replace(playHedef)
   else if (apple) location.replace(ios)
 })()
 </script>
